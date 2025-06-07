@@ -1,11 +1,6 @@
 # serializers.py
 from rest_framework import serializers
-from .models import ChiPhi, PhongTro, KhachThue, HoaDon, SinhHoat, HopDong
-
-class ChiPhiSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ChiPhi
-        fields = '__all__'
+from .models import PhongTro, KhachThue, HoaDon, HopDong
 
 class PhongTroSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,10 +14,7 @@ class HoaDonSerializer(serializers.ModelSerializer):
     class Meta:
         model = HoaDon
         fields = '__all__'
-class SinhHoatSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SinhHoat
-        fields = '__all__'
+
 class HopDongSerializer(serializers.ModelSerializer):
     class Meta:
         model = HopDong
