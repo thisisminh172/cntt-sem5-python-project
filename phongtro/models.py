@@ -21,7 +21,7 @@ class PhongTro(models.Model):
     trangthai = models.CharField(max_length=7, choices=TRANGTHAI_CHOICES, default='Trống') # e.g., "Trống", "Đã thuê"
 
     def __str__(self):
-        return f"{self.sophong} - {self.diachi}"
+        return f"{self.id} - {self.diachi}"
     
 class KhachThue(models.Model):
     id = models.CharField(max_length=100, primary_key=True)
@@ -51,7 +51,7 @@ class HoaDon(models.Model):
     hoaDonCuaThangNam = models.DateField(null=True, blank=True)
 
     def __str__(self):
-        return f"HoaDon {self.id} - {self.khachthue.hoten} - {self.phongtro.sophong} - {self.tonghoadon} VND - {self.trangthai}"
+        return f"HoaDon {self.id} - {self.khachthue.hoten} - {self.phongtro.id} - {self.tonghoadon} VND - {self.trangthai}"
     
     
 class HopDong(models.Model):
@@ -62,7 +62,7 @@ class HopDong(models.Model):
     ngayketthuc = models.DateField() # Ngày kết thúc hợp đồng
 
     def __str__(self):
-        return f"Hợp đồng {self.id} - {self.khachthue.hoten} - {self.phongtro.sophong} - {self.ngaybatdau} - {self.ngayketthuc}"
+        return f"Hợp đồng {self.id} - {self.khachthue.hoten} - {self.phongtro.id} - {self.ngaybatdau} - {self.ngayketthuc}"
 
 
 
