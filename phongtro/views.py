@@ -162,12 +162,12 @@ def hoa_don_create(request):
     request.data['khachthue'] = khachthue
     newHoaDon = {
         'id': new_id,
-        'khachthue': khachthue,
+        'khachthue': khachthue.id,
+        'phongtro': phongtro.id,
         'ngaytao': ngayHienTai,
         'tonghoadon': giaPhong,  # Tổng hóa đơn sẽ được tính bằng giá phòng
-        'ngaythanhtoan': '', # Ngày thanh toán sẽ được cập nhật sau
         'trangthai': 'Chưa thanh toán',  # Mặc định là chưa thanh toán
-        'hoaDonCuaThangNam': hoaDonCuaThangNam.strftime("%Y-%m-01"),  # Ngày muốn thanh toán
+        'hoaDonCuaThangNam': hoaDonCuaThangNam,  # Ngày muốn thanh toán
     }
     serializer = HoaDonSerializer(data=newHoaDon)
     if serializer.is_valid():
