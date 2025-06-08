@@ -134,12 +134,11 @@ def hoa_don_create(request):
     new_id = create_custom_id(HoaDon, 'HD')
 
     #khách thuê id từ request
-    khach_thue_id = request.data.get('khachthueid')
-    khachthue = KhachThue.objects.get(id=khach_thue_id)
-    
+    hop_dong_id = request.data.get('hopdongid')
+    hopDong = HopDong.objects.get(id=hop_dong_id)
+
     #ngày tạo hóa đơn
     ngayHienTai = date.today().strftime("%Y-%m-%d")
-    request.data['ngaytao'] = ngayHienTai
     #ngày muốn thanh toán
     #Nhập theo format YYYY-MM
     thangNam = datetime.strptime(request.data.get('hoaDonCuaThangNam'), "%Y-%m")
@@ -148,22 +147,19 @@ def hoa_don_create(request):
 
     # So sánh với ngày hiện tại và ngày kết thúc hợp đồng
     # Nếu ngày tháng lớn hơn ngày hiện tại hoặc lớn hơn ngày kết thúc hợp đồng thì không cho tạo hóa đơn
-    hopDong = HopDong.objects.get(khachthue=khachthue)
     ngayKetThucHopDong = hopDong.ngayketthuc.strftime("%Y-%m-%d")
     if hoaDonCuaThangNam > ngayHienTai or hoaDonCuaThangNam > ngayKetThucHopDong:
         return Response({"error": "Ngày muốn thanh toán không hợp lệ. Vui lòng chọn ngày trong khoảng thời gian hợp đồng."})
     
 
-    #Phòng trọ thuộc về khách thuê trên hợp đồng
+    #Lay giá phòng từ hợp đồng
     phong_tro_id = hopDong.phongtro.id
     phongtro = PhongTro.objects.get(id=phong_tro_id)
     giaPhong = phongtro.giaphong
 
-    request.data['khachthue'] = khachthue
     newHoaDon = {
         'id': new_id,
-        'khachthue': khachthue.id,
-        'phongtro': phongtro.id,
+        'hopdong': hopDong.id,
         'ngaytao': ngayHienTai,
         'tonghoadon': giaPhong,  # Tổng hóa đơn sẽ được tính bằng giá phòng
         'trangthai': 'Chưa thanh toán',  # Mặc định là chưa thanh toán
@@ -259,11 +255,11 @@ def danh_sach_khach_thue_by_name(request, name):
 def initialize_database(request):
 
     # Initialize PhongTro
-    PhongTro(id= 'PT000001', diachi='123/4 Đường Trần Xuân Soạn, Quận 7, Tp.HCM', dientich=20, giaphong=5_500_000, loaiphong='Phòng đôi', mota='Đầy đủ nội thất').save()
-    PhongTro(id= 'PT000002', diachi='123/4 Đường Trần Xuân Soạn, Quận 7, Tp.HCM', dientich=16, giaphong=4_500_000, loaiphong='Phòng đôi', mota='Đầy đủ nội thất').save()
-    PhongTro(id= 'PT000003', diachi='123/4 Đường Trần Xuân Soạn, Quận 7, Tp.HCM', dientich=16, giaphong=4_500_000, loaiphong='Phòng đơn', mota='Đầy đủ nội thất').save()
-    PhongTro(id= 'PT000004', diachi='123/4 Đường Trần Xuân Soạn, Quận 7, Tp.HCM', dientich=20, giaphong=5_500_000, loaiphong='Phòng đôi', mota='Đầy đủ nội thất').save()
-    PhongTro(id= 'PT000005', diachi='123/4 Đường Trần Xuân Soạn, Quận 7, Tp.HCM', dientich=20, giaphong=5_500_000, loaiphong='Phòng đôi', mota='Đầy đủ nội thất').save()
+    PhongTro(id= 'PT000001', dientich=20, giaphong=5_500_000, loaiphong='Phòng đôi', mota='Đầy đủ nội thất').save()
+    PhongTro(id= 'PT000002', dientich=16, giaphong=4_500_000, loaiphong='Phòng đôi', mota='Đầy đủ nội thất').save()
+    PhongTro(id= 'PT000003', dientich=16, giaphong=4_500_000, loaiphong='Phòng đơn', mota='Đầy đủ nội thất').save()
+    PhongTro(id= 'PT000004', dientich=20, giaphong=5_500_000, loaiphong='Phòng đôi', mota='Đầy đủ nội thất').save()
+    PhongTro(id= 'PT000005', dientich=20, giaphong=5_500_000, loaiphong='Phòng đôi', mota='Đầy đủ nội thất').save()
     
     # Initialize KhachThue
     KhachThue(id='KT000001', hoten='Nguyễn Văn A', ngaysinh='1990-01-01', diachi='123 Đường ABC, Quận 1, Tp.HCM', cccd='123456789012', dienthoai='0901234567').save()
