@@ -1,7 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from datetime import datetime, date
-from dateutil.relativedelta import relativedelta
 
 from .models import PhongTro, KhachThue, HoaDon, HopDong
 from .serializers import PhongTroSerializer, KhachThueSerializer, HoaDonSerializer, HopDongSerializer
