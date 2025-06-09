@@ -102,13 +102,19 @@ def khach_thue_create(request):
 def khach_thue_detail(request, pk):
     khach_thue = KhachThue.objects.get(id=pk)
     # Lấy danh sách hợp đồng của khách thuê
-    hop_dongs = HopDong.objects.filter(khachthue=khach_thue)
+    hop_dongs = HopDong.objects.filter(khachthue=khach_thue.id)
+    
     thongTinChiTiet = {
-        'khachthue': KhachThueSerializer(khach_thue).data,
-        'hop_dongs': HopDongSerializer(hop_dongs, many=True).data
+        'hoten': khach_thue.hoten,
+        'ngaysinh': khach_thue.ngaysinh,
+        'diachi': khach_thue.diachi,
+        'cccd': khach_thue.cccd,
+        'dienthoai': khach_thue.dienthoai,
+        'email': khach_thue.email,
+        'hop_dongs': HopDongSerializer(hop_dongs, many=True).data,
     }
-    serializer = KhachThueSerializer(thongTinChiTiet, many=False)
-    return Response(serializer.data)
+
+    return Response(thongTinChiTiet)
 @api_view(['POST'])
 def khach_thue_update(request):
     khach_thue = KhachThue.objects.get(id=request.data['id'])
